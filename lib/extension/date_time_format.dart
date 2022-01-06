@@ -16,8 +16,8 @@ extension DateTimeFormat on DateTime {
         //'ddd': day,
         'H': hour,
         'HH': DayUtil.preFixNum(hour),
-        // 'h': hour,
-        // 'hh': hour,
+        'h': hour % 12,
+        'hh': DayUtil.preFixNum(hour % 12),
         // 'a': hour,
         // 'A': hour,
         'm': minute,
@@ -25,8 +25,9 @@ extension DateTimeFormat on DateTime {
         's': second,
         'ss': DayUtil.preFixNum(second),
         // 'SSS': second,
-        'ms': millisecond,
-        'Z': this,
+        'ms': microsecond,
+        'Z': millisecondsSinceEpoch,
+        'ZZ': microsecondsSinceEpoch,
       };
 
   //  var matches = {
@@ -55,6 +56,10 @@ extension DateTimeFormat on DateTime {
   //       SSS: Utils.s(this.$ms, 3, '0'),
   //       Z: zoneStr // 'ZZ' logic below
   //     };
+  
+  ///
+  /// format [DateTime] to string
+  ///
   String format(String formatStr) {
     return formatStr.replaceAllMapped(DayUtil.REGEX_FORMAT, (Match match) {
       return _dateMap[formatStr.substring(match.start, match.end)].toString();
@@ -63,9 +68,11 @@ extension DateTimeFormat on DateTime {
 }
 
 class DayUtil {
+  //format regex
   static final RegExp REGEX_FORMAT = RegExp(
-      r"/\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/ig");
+      r"\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|\bms\b|m{1,2}|s{1,2}|Z{1,2}|SSS");
 
+  //双位数转换
   static String preFixNum(int num) {
     return num < 10 ? '0$num' : '$num';
   }
