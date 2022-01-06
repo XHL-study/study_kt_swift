@@ -3,6 +3,7 @@ import 'package:study_kt_swift/home/home.dart';
 import 'package:study_kt_swift/page_error/page_404.dart';
 import 'package:study_kt_swift/speech/speech.dart';
 import 'package:study_kt_swift/tts/tts.dart';
+import 'package:study_kt_swift/widgets/index.dart';
 
 typedef WidgetPage = Widget Function(RouteSettings rs);
 
@@ -34,7 +35,7 @@ class MyRoutes {
       MyRoute(
         routeName: Home.routeName,
         initTitle: '首页',
-        icon: Icons.message,
+        icon: Icons.home,
         hidden: _debugHiddenRoute,
         page: (rs) => Home(
           rs: rs,
@@ -44,7 +45,7 @@ class MyRoutes {
         routeName: Speech.routeName,
         initTitle: '测试 flutter speech',
         hidden: _debugHiddenRoute,
-        icon: Icons.message,
+        icon: Icons.settings_voice,
         page: (rs) => Speech(
           rs: rs,
         ),
@@ -64,13 +65,20 @@ class MyRoutes {
         page: (rs) => Page404(
           rs: rs,
         ),
+      ), MyRoute(
+        routeName: WidgetsIndex.routeName,
+        initTitle: 'test widgets',
+        icon: Icons.settings_applications,
+        page: (rs) => WidgetsIndex(
+          rs: rs,
+        ),
       ),
     ];
   }
 
   /// 路由配置
   static Map<String, MyRoute> get routes {
-    return Map.fromIterables(_routes.map((e) => e.routeName), _routes);
+    return { for (var mr in _routes) mr.routeName : mr };
   }
 
   /// 菜单

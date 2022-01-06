@@ -37,6 +37,9 @@ dependencies:
   fish_redux: ^0.3.7
   flutter_speech: ^2.0.0
   text_to_speech: ^0.2.3
+  file_picker: ^4.3.0
+  dio: ^4.0.4
+  qiniu_flutter_sdk: ^0.3.0
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:study_kt_swift/home/home.dart';
 import 'package:study_kt_swift/my_routes.dart';
 import 'package:study_kt_swift/page_error/page_404.dart';
+
 
 void main() {
   runApp(const MyApp());
