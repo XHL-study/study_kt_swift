@@ -29,6 +29,17 @@ class MyRoutes {
   ///是否 隐藏路由
   static bool get _debugHiddenRoute => false;
 
+  /// 路由配置
+  static Map<String, MyRoute> get routes {
+    return {for (var mr in _routes) mr.routeName: mr};
+  }
+
+  /// 菜单
+  /// 过滤不需要显示的[MyRoute.hidden]
+  static List<MyRoute> get menus {
+    return _routes.where((MyRoute element) => !element.hidden).toList();
+  }
+
   /// 路由
   static List<MyRoute> get _routes {
     return [
@@ -65,7 +76,8 @@ class MyRoutes {
         page: (rs) => Page404(
           rs: rs,
         ),
-      ), MyRoute(
+      ),
+      MyRoute(
         routeName: WidgetsIndex.routeName,
         initTitle: 'test widgets',
         icon: Icons.settings_applications,
@@ -74,16 +86,5 @@ class MyRoutes {
         ),
       ),
     ];
-  }
-
-  /// 路由配置
-  static Map<String, MyRoute> get routes {
-    return { for (var mr in _routes) mr.routeName : mr };
-  }
-
-  /// 菜单
-  /// 过滤不需要显示的[MyRoute.hidden]
-  static List<MyRoute> get menus {
-    return _routes.where((MyRoute element) => !element.hidden).toList();
   }
 }

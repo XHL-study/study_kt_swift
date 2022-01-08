@@ -1,6 +1,8 @@
-///
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:study_kt_swift/widgets/date_format.dart';
+
 /// 时间格式化 根据dayjs更改过来的简易版本
-///
 extension DateTimeFormat on DateTime {
   Map<String, dynamic> get _dateMap => {
         "YY": year.toString().substring(2),
@@ -56,24 +58,56 @@ extension DateTimeFormat on DateTime {
   //       SSS: Utils.s(this.$ms, 3, '0'),
   //       Z: zoneStr // 'ZZ' logic below
   //     };
-  
-  ///
+
   /// format [DateTime] to string
-  ///
   String format(String formatStr) {
-    return formatStr.replaceAllMapped(DayUtil.REGEX_FORMAT, (Match match) {
+    // if (formatStr.isEmpty) throw DateTimeFormatException('formatStr is null');
+    return formatStr.replaceAllMapped(DayUtil.regexpFormat, (Match match) {
       return _dateMap[formatStr.substring(match.start, match.end)].toString();
     });
+  }
+
+  /// tryFormat [DateTime] to string
+  // String tryFormat(String formatStr) {
+  //   try {
+  //     return format(formatStr);
+  //   } on DateTimeFormatException catch (e) {
+  //     return e.toString();
+  //   }
+  // }
+
+  /// get date week
+  int getWeek() {
+    return weekday;
   }
 }
 
 class DayUtil {
   //format regex
-  static final RegExp REGEX_FORMAT = RegExp(
+  static final RegExp regexpFormat = RegExp(
       r"\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|\bms\b|m{1,2}|s{1,2}|Z{1,2}|SSS");
 
-  //双位数转换
-  static String preFixNum(int num) {
-    return num < 10 ? '0$num' : '$num';
+  //增加数字前缀
+  static dynamic preFixNum(
+    int num, {
+    int preFixLen = 2,
+    String preFix = '0',
+  }) {
+    if (num.toString().length > preFixLen) return num;
+    return List.generate(preFixLen - num.toString().length, (index) => preFix)
+            .join('') +
+        num.toString();
   }
 }
+
+// class DateTimeFormatException implements Exception {
+//   final String message;
+//   final int code;
+//
+//   DateTimeFormatException(this.message, {this.code = -1});
+//
+//   @override
+//   String toString() {
+//     return 'message:$message code:$code';
+//   }
+// }
