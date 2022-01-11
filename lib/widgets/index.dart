@@ -36,11 +36,11 @@ class _WidgetsIndexState extends State<WidgetsIndex> {
       body: Column(
         children: [
           SelectFile(openSelectFileWindow),
-          Container(width: double.infinity,color: Colors.red.shade50,padding:const EdgeInsetsDirectional.all(4.0),),
+          Container(height:8.0,width: double.infinity,color: Colors.red.shade50),
           Text(file ?? "未选择文件"),
-          Container(width: double.infinity,color: Colors.red.shade50,padding:const EdgeInsetsDirectional.all(4.0),),
+          Container(height:8.0,width: double.infinity,color: Colors.red.shade50,padding:const EdgeInsetsDirectional.all(4.0),),
           DateFormat(),
-          Container(width: double.infinity,color: Colors.red.shade50,padding:const EdgeInsetsDirectional.all(4.0),),
+          Container(height:8.0,width: double.infinity,color: Colors.red.shade50),
         ],
       ),
     );

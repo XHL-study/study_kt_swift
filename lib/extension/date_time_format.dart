@@ -76,18 +76,18 @@ extension DateTimeFormat on DateTime {
 class DayUtil {
   //格式化 日期 正则
   static final RegExp regexpFormat = RegExp(
-      r"\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|\bmss\b|\bms\b|m{1,2}|s{1,2}|Z{1,2}|SSS");
+      r"\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|mss|ms|m{1,2}|s{1,2}|Z{1,2}");
 
   /// 日期 数字匹配 正则
   static final RegExp regexpTimeNum = RegExp(r'\d+');
 
-  //增加 数字前缀
+  //增加 num的前缀
   static dynamic preFixNum(
     dynamic num, {
     int preFixLen = 2,
     String preFix = '0',
   }) {
-    if (num.toString().length > preFixLen) return num;
+    if (num.toString().length >= preFixLen) return num;
     return List.generate(preFixLen - num.toString().length, (index) => preFix)
             .join('') +
         num.toString();
