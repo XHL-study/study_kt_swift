@@ -29,7 +29,7 @@
 ///   };
 
 extension DateTimeFormat on DateTime {
-  Map<String, dynamic> get _dateMap => {
+  Map<String, dynamic> get _dateTimeFormatMap => {
         "YY": year.toString().substring(2),
         "YYYY": year,
         "M": month,
@@ -50,14 +50,20 @@ extension DateTimeFormat on DateTime {
         'ZZ': microsecondsSinceEpoch, //时间戳 微秒
       };
 
-  /// format [DateTime] to string
+  /// 格式化 [DateTime] 为string对象
   String format(String formatStr) {
     return formatStr.replaceAllMapped(DayUtil.regexpFormat, (Match match) {
-      return _dateMap[formatStr.substring(match.start, match.end)].toString();
+      return _dateTimeFormatMap[formatStr.substring(match.start, match.end)].toString();
     });
   }
 
-  /// format [fms] to DateTime？
+  /// 尝试将fms字符串格式化为[DateTime]
+  /// 针对默认的 [_parseFormat]对 fms中的数字进行前缀补0操作
+  /// static final RegExp  =
+  ///       RegExp(r'^([+-]?\d{4,6})-?(\d\d)-?(\d\d)' // Day part.
+  ///           r'(?:[ T](\d\d)(?::?(\d\d)(?::?(\d\d)(?:[.,](\d+))?)?)?' // Time part.
+  ///           r'( ?[zZ]| ?([-+])(\d\d)(?::?(\d\d))?)?)?$'); // Timezone part.
+  ///
   static DateTime? tryParse(String fms) {
     try {
       final fs = fms.replaceAllMapped(DayUtil.regexpTimeNum, (Match match) {
@@ -81,14 +87,14 @@ class DayUtil {
   /// 日期 数字匹配 正则
   static final RegExp regexpTimeNum = RegExp(r'\d+');
 
-  //增加 num的前缀
+  //增加 [num]前缀
   static dynamic preFixNum(
     dynamic num, {
     int preFixLen = 2,
     String preFix = '0',
   }) {
     if (num.toString().length >= preFixLen) return num;
-    return List.generate(preFixLen - num.toString().length, (index) => preFix)
+    return List.generate(preFixLen - num.toString().length, (_) => preFix)
             .join('') +
         num.toString();
   }
